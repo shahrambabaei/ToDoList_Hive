@@ -39,11 +39,11 @@ class MyApp extends StatelessWidget {
                   fontSize: 22,
                   color: ColorTheme.onPrimaryColor,
                   fontWeight: FontWeight.w500),
-                  bodyText1: TextStyle(
+              bodyText1: TextStyle(
                   fontSize: 18,
                   color: ColorTheme.primaryTextColor,
-                  fontWeight: FontWeight.w500) ))),
-      home: const HomeScreen(),
+                  fontWeight: FontWeight.w500)))),
+      home: HomeScreen(task: Task()),
     );
   }
 }

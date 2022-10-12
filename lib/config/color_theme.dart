@@ -11,7 +11,8 @@ class ColorTheme {
   static const backgroundColor = Color(0xffF3F5F8);
   static const onBackgroundColor = Color(0xff1D2830);
   static const surfaceColor = Colors.white;
-  static const normalPriority = Color(0xffF09819);
-  static const lowPriority = Color(0xff3BE1F1);
-  static const highPriority = Color(0xff794CFF);
+  static const onSurfaceColor = Color(0xff1D2830);
+  static const normalPriorityColor = Color(0xffF09819);
+  static const lowPriorityColor = Color(0xff3BE1F1);
+  static const highPriorityColor = Color(0xff794CFF);
 }

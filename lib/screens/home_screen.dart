@@ -9,7 +9,8 @@ import 'package:todolist_hive/widgets/homescreen_widget/body_listview.dart';
 import 'package:todolist_hive/widgets/homescreen_widget/header_listview.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.task});
+  final Task task;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +94,9 @@ class HomeScreen extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const EditTaskScreen()));
+                      builder: (context) => EditTaskScreen(
+                            task: task,
+                          )));
             },
             label: Row(
               children: const [
