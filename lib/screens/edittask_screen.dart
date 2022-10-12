@@ -13,7 +13,7 @@ class EditTaskScreen extends StatelessWidget {
     final box = Hive.box<Task>(taskBoxName);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('EditTaskScreen'),
+        title: const Text('EditTask'),
       ),
       body: Column(children: [
         TextField(

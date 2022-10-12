@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todolist_hive/config/color_theme.dart';
 import 'package:todolist_hive/model/task.dart';
@@ -25,10 +26,23 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+          inputDecorationTheme: const InputDecorationTheme(
+              border: InputBorder.none,
+              hintStyle: TextStyle(color: ColorTheme.secondaryTextColor),
+              prefixIconColor: ColorTheme.secondaryTextColor),
           colorScheme: const ColorScheme.light(
               primary: ColorTheme.primaryColor,
               secondary: ColorTheme.secondaryColor,
-              onSecondary: ColorTheme.onsecondaryColor)),
+              onSecondary: ColorTheme.onsecondaryColor),
+          textTheme: GoogleFonts.poppinsTextTheme(const TextTheme(
+              headline6: TextStyle(
+                  fontSize: 22,
+                  color: ColorTheme.onPrimaryColor,
+                  fontWeight: FontWeight.w500),
+                  bodyText1: TextStyle(
+                  fontSize: 18,
+                  color: ColorTheme.primaryTextColor,
+                  fontWeight: FontWeight.w500) ))),
       home: const HomeScreen(),
     );
   }
