@@ -11,8 +11,25 @@ class BodyListView extends StatefulWidget {
 }
 
 class _BodyListViewState extends State<BodyListView> {
+     late Color priorityColor;
+  @override
+  void didChangeDependencies() {
+    switch (widget.task.priority) {
+      case Priority.high:
+        priorityColor = ColorTheme.highPriorityColor;
+        break;
+      case Priority.normal:
+        priorityColor = ColorTheme.normalPriorityColor;
+        break;
+      case Priority.low:
+        priorityColor = ColorTheme.lowPriorityColor;
+        break;
+    }
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
+   
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: InkWell(
@@ -49,8 +66,8 @@ class _BodyListViewState extends State<BodyListView> {
               width: 7,
               height: double.infinity,
               decoration: BoxDecoration(
-                color: ColorTheme.primaryColor,
-                  borderRadius: BorderRadius.only(
+                  color: priorityColor,
+                  borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(12),
                       bottomRight: Radius.circular(12))),
             )

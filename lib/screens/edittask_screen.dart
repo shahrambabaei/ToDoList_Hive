@@ -15,10 +15,10 @@ class EditTaskScreen extends StatefulWidget {
 }
 
 class _EditTaskScreenState extends State<EditTaskScreen> {
+  TextEditingController controller = TextEditingController();
+    final box = Hive.box<Task>(taskBoxName);
   @override
   Widget build(BuildContext context) {
-    TextEditingController controller = TextEditingController();
-    final box = Hive.box<Task>(taskBoxName);
     return Scaffold(
       backgroundColor: ColorTheme.surfaceColor,
       appBar: AppBar(
@@ -36,36 +36,36 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                   child: ItemPriorityTask(
                 label: 'High',
                 color: ColorTheme.highPriorityColor,
+                selcted: widget.task.priority == Priority.high,
                 onclick: () {
                   setState(() {
                     widget.task.priority = Priority.high;
                   });
                 },
-                selcted: widget.task.priority == Priority.high,
               )),
               const SizedBox(width: 15),
               Expanded(
                   child: ItemPriorityTask(
                 label: 'Normal',
                 color: ColorTheme.normalPriorityColor,
+                selcted: widget.task.priority == Priority.normal,
                 onclick: () {
                   setState(() {
                     widget.task.priority = Priority.normal;
                   });
                 },
-                selcted: widget.task.priority == Priority.normal,
               )),
               const SizedBox(width: 15),
               Expanded(
                   child: ItemPriorityTask(
                 label: 'low',
                 color: ColorTheme.lowPriorityColor,
+                selcted: widget.task.priority == Priority.low,
                 onclick: () {
                   setState(() {
                     widget.task.priority = Priority.low;
                   });
                 },
-                selcted: widget.task.priority == Priority.low,
               )),
             ],
           ),
@@ -73,8 +73,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
             controller: controller,
             decoration: const InputDecoration(
                 label: Text('Add  a task for today...'),
-                labelStyle:
-                    TextStyle(fontSize:18, color: ColorTheme.secondaryTextColor)),
+                labelStyle: TextStyle(
+                    fontSize: 18, color: ColorTheme.secondaryTextColor)),
           )
         ]),
       ),
@@ -83,7 +83,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
           onPressed: () {
             Task task = Task();
             task.text = controller.text;
-            task.priority = Priority.low;
+            task.priority = widget.task.priority;
             if (task.isInBox) {
               task.save();
             } else {
