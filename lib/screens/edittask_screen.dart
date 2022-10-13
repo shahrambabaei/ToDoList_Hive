@@ -15,8 +15,8 @@ class EditTaskScreen extends StatefulWidget {
 }
 
 class _EditTaskScreenState extends State<EditTaskScreen> {
-  TextEditingController controller = TextEditingController();
-    final box = Hive.box<Task>(taskBoxName);
+ late final TextEditingController controller = TextEditingController(text: widget.task.text);
+  final box = Hive.box<Task>(taskBoxName);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,13 +81,12 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Task task = Task();
-            task.text = controller.text;
-            task.priority = widget.task.priority;
-            if (task.isInBox) {
-              task.save();
+            widget.task.text = controller.text;
+            widget.task.priority = widget.task.priority;
+            if (widget.task.isInBox) {
+              widget.task.save();
             } else {
-              box.add(task);
+              box.add(widget.task);
             }
             Navigator.pop(context);
           },

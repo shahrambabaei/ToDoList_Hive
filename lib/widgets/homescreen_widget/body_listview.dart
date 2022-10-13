@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todolist_hive/config/color_theme.dart';
 import 'package:todolist_hive/model/task.dart';
+import 'package:todolist_hive/screens/edittask_screen.dart';
 
 class BodyListView extends StatefulWidget {
   const BodyListView({super.key, required this.task});
@@ -11,9 +12,10 @@ class BodyListView extends StatefulWidget {
 }
 
 class _BodyListViewState extends State<BodyListView> {
-     late Color priorityColor;
+  late Color priorityColor;
+
   @override
-  void didChangeDependencies() {
+  Widget build(BuildContext context) {
     switch (widget.task.priority) {
       case Priority.high:
         priorityColor = ColorTheme.highPriorityColor;
@@ -25,15 +27,16 @@ class _BodyListViewState extends State<BodyListView> {
         priorityColor = ColorTheme.lowPriorityColor;
         break;
     }
-    super.didChangeDependencies();
-  }
-  @override
-  Widget build(BuildContext context) {
-   
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EditTaskScreen(task: widget.task),
+              ));
+        },
         child: Container(
           height: 75,
           padding: const EdgeInsets.only(left: 20),
