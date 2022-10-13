@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:todolist_hive/config/color_theme.dart';
 import 'package:todolist_hive/main.dart';
@@ -11,7 +10,9 @@ import 'package:todolist_hive/widgets/homescreen_widget/body_listview.dart';
 import 'package:todolist_hive/widgets/homescreen_widget/header_listview.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+  final TextEditingController controller = TextEditingController();
+  final ValueNotifier<String> searchKeywordNotifier = ValueNotifier('');
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +53,12 @@ class HomeScreen extends StatelessWidget {
                               blurRadius: 10)
                         ],
                         color: ColorTheme.onPrimaryColor),
-                    child: const TextField(
-                      decoration: InputDecoration(
+                    child: TextField(
+                      onChanged: (value) {
+                        searchKeywordNotifier.value = controller.text;
+                      },
+                      controller: controller,
+                      decoration: const InputDecoration(
                         prefixIcon: Icon(
                           CupertinoIcons.search,
                         ),
@@ -65,30 +70,43 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ValueListenableBuilder<Box<Task>>(
-                valueListenable: box.listenable(),
-                builder: (context, box, child) {
-                  if (box.isNotEmpty) {
-                    return ListView.builder(
-                      padding: const EdgeInsets.fromLTRB(15, 15, 15, 100),
-                      itemCount: box.values.length + 1,
-                      itemBuilder: (context, index) {
-                        if (index == 0) {
-                          return const HeaderListView();
-                        } else {
-                          final Task task = box.values.toList()[index - 1];
-                          return BodyListView(
-                            task: task,
-                          );
-                        }
-                      },
-                    );
-                  } else {
-                    return const EmptyState();
-                  }
-                },
-              ),
-            ),
+                child: ValueListenableBuilder<String>(
+              valueListenable: searchKeywordNotifier,
+              builder: (context, value, child) {
+                return ValueListenableBuilder<Box<Task>>(
+                  valueListenable: box.listenable(),
+                  builder: (context, box, child) {
+                    final List<Task> items;
+                    if (controller.text.isEmpty) {
+                      items = box.values.toList();
+                    } else {
+                      items = box.values
+                          .where((element) =>
+                              element.text.contains(controller.text))
+                          .toList();
+                    }
+                    if (items.isNotEmpty) {
+                      return ListView.builder(
+                        padding: const EdgeInsets.fromLTRB(15, 15, 15, 100),
+                        itemCount: items.length + 1,
+                        itemBuilder: (context, index) {
+                          if (index == 0) {
+                            return const HeaderListView();
+                          } else {
+                            final Task task = items[index - 1];
+                            return BodyListView(
+                              task: task,
+                            );
+                          }
+                        },
+                      );
+                    } else {
+                      return const EmptyState();
+                    }
+                  },
+                );
+              },
+            )),
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
