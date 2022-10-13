@@ -37,6 +37,9 @@ class _BodyListViewState extends State<BodyListView> {
                 builder: (context) => EditTaskScreen(task: widget.task),
               ));
         },
+        onLongPress: () {
+          widget.task.delete();
+        },
         child: Container(
           height: 75,
           padding: const EdgeInsets.only(left: 20),

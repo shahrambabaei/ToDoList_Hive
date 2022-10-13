@@ -1,12 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:todolist_hive/config/color_theme.dart';
+import 'package:todolist_hive/main.dart';
+import 'package:todolist_hive/model/task.dart';
 
 class HeaderListView extends StatelessWidget {
   const HeaderListView({super.key});
 
+
   @override
   Widget build(BuildContext context) {
+    final Box<Task> box = Hive.box<Task>(taskBoxName);
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +34,9 @@ class HeaderListView extends StatelessWidget {
         color: const Color(0xFfEAEFF5),
         textColor: ColorTheme.secondaryTextColor,
         elevation: 0,
-        onPressed: () {},
+        onPressed: () {
+          box.clear();
+        },
         child: Row(children: const [
           Text('Delete All'),
           SizedBox(

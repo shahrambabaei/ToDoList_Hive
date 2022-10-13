@@ -1,16 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:todolist_hive/config/color_theme.dart';
 import 'package:todolist_hive/main.dart';
 import 'package:todolist_hive/model/task.dart';
 import 'package:todolist_hive/screens/edittask_screen.dart';
+import 'package:todolist_hive/widgets/empty_state.dart';
 import 'package:todolist_hive/widgets/homescreen_widget/body_listview.dart';
 import 'package:todolist_hive/widgets/homescreen_widget/header_listview.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key,});
-  
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Container(
-                    height: 40,
+                    height: 43,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
                         boxShadow: [
@@ -66,24 +67,26 @@ class HomeScreen extends StatelessWidget {
             Expanded(
               child: ValueListenableBuilder<Box<Task>>(
                 valueListenable: box.listenable(),
-                builder: (context, box, child) => ListView.builder(
-                  padding: const EdgeInsets.fromLTRB(15, 15, 15, 100),
-                  itemCount: box.values.length + 1,
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return HeaderListView();
-                    } else {
-                      final Task task = box.values.toList()[index - 1];
-                      return BodyListView(
-                        task: task,
-                      );
-                    }
-                    // return Container(
-                    //   margin: const EdgeInsets.only(top: 10),
-                    //   child: Text(box.getAt(index-1)!.text),
-                    // );
-                  },
-                ),
+                builder: (context, box, child) {
+                  if (box.isNotEmpty) {
+                    return ListView.builder(
+                      padding: const EdgeInsets.fromLTRB(15, 15, 15, 100),
+                      itemCount: box.values.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index == 0) {
+                          return const HeaderListView();
+                        } else {
+                          final Task task = box.values.toList()[index - 1];
+                          return BodyListView(
+                            task: task,
+                          );
+                        }
+                      },
+                    );
+                  } else {
+                    return const EmptyState();
+                  }
+                },
               ),
             ),
           ],
